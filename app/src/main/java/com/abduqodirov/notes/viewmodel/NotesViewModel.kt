@@ -43,6 +43,14 @@ class NotesViewModel(
 
     }
 
+    fun deleteAllNotes() {
+
+        viewModelScope.launch {
+            deleteAllNotesFromRoom()
+        }
+
+    }
+
     private suspend fun insertNoteToRoom(note: Note) {
 
         withContext(Dispatchers.IO) {
@@ -63,6 +71,14 @@ class NotesViewModel(
 
         withContext(Dispatchers.IO) {
             localDatabase.deleteNote(deletingNote)
+        }
+
+    }
+
+    private suspend fun deleteAllNotesFromRoom() {
+
+        withContext(Dispatchers.IO) {
+            localDatabase.deleteAllNotes()
         }
 
     }
