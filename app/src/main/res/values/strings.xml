@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Notes</string>
+    <string name="link_button_delete_note">Delete note</string>
 </resources>

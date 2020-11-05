@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.abduqodirov.notes.databinding.ItemNoteBinding
 import com.abduqodirov.notes.model.Note
+import com.abduqodirov.notes.util.DateFormatter
 
 class NotesAdapter(
     private val noteClickListener: NoteItemClickCallback
@@ -31,8 +32,12 @@ class NotesAdapter(
 
             itemNoteBinding.itemTitleText.text = note.title
             itemNoteBinding.itemShortDecText.text = note.fullText //TODO substring,  check if not asfa
-            itemNoteBinding.itemCreatedDateText.text = note.createdDate
-            itemNoteBinding.itemLastEditedDateText.text = note.lastEditedDate
+            itemNoteBinding.itemCreatedDateText.text = DateFormatter().formatDate(note.createdDate)
+
+            //Yaralgandan beri o'zgarganmi yo'qmi ikkalasini solishtirib tekshiradi.
+            if (note.createdDate != note.lastEditedDate) {
+                itemNoteBinding.itemLastEditedDateText.text = DateFormatter().formatDate(note.lastEditedDate)
+            }
 
             //TODO load images and create ImageViews dynamically.
 

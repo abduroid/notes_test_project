@@ -35,6 +35,14 @@ class NotesViewModel(
 
     }
 
+    fun deleteNote(deletingNote: Note) {
+
+        viewModelScope.launch {
+            deleteNoteFromRoom(deletingNote)
+        }
+
+    }
+
     private suspend fun insertNoteToRoom(note: Note) {
 
         withContext(Dispatchers.IO) {
@@ -45,10 +53,16 @@ class NotesViewModel(
 
     private suspend fun updateOnRoom(note: Note) {
 
-        Log.d("tyua", "suspendga keldi title: ${note.title}")
         withContext(Dispatchers.IO) {
             localDatabase.update(note)
-            Log.d("tyua", "update qildi")
+        }
+
+    }
+
+    private suspend fun deleteNoteFromRoom(deletingNote: Note) {
+
+        withContext(Dispatchers.IO) {
+            localDatabase.deleteNote(deletingNote)
         }
 
     }

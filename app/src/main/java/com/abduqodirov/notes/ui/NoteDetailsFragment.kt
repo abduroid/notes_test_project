@@ -11,12 +11,16 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.abduqodirov.notes.R
 import com.abduqodirov.notes.database.NoteDatabase
 import com.abduqodirov.notes.databinding.FragmentNoteDetailsBinding
 import com.abduqodirov.notes.model.Note
+import com.abduqodirov.notes.util.DateFormatter
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
+import java.util.*
 
 class NoteDetailsFragment : Fragment() {
 
@@ -27,6 +31,8 @@ class NoteDetailsFragment : Fragment() {
     private lateinit var viewModel: NotesViewModel
 
     val args: NoteDetailsFragmentArgs by navArgs()
+
+    private lateinit var pressedNote: Note
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +63,8 @@ class NoteDetailsFragment : Fragment() {
             viewLifecycleOwner,
             Observer { activeNote: Note ->
 
+                pressedNote = activeNote
+
                 Log.d("tyua", "note yangilandi: $activeNote")
 
                 //TODO shu yerda yangiliklarni textViewlarga ham, editlarga ham set qilamiz.
@@ -67,8 +75,12 @@ class NoteDetailsFragment : Fragment() {
                 binding.detailsFullText.text = activeNote.fullText
                 binding.detailsFullInput.setText(activeNote.fullText)
 
-                binding.detailsCreatedDate.text = activeNote.createdDate
-                binding.detailsLastEditedDate.text = activeNote.lastEditedDate
+                binding.detailsCreatedDate.text = DateFormatter().formatDate(activeNote.createdDate)
+
+
+                if (activeNote.createdDate != activeNote.lastEditedDate) {
+                    binding.detailsLastEditedDate.text = DateFormatter().formatDate(activeNote.lastEditedDate)
+                }
 
                 //TODO images fix
                 binding.detailsImagesText.text = activeNote.imagePaths
@@ -121,7 +133,7 @@ class NoteDetailsFragment : Fragment() {
             val newImagePaths = "TODO new image paths" //TODO new images
 
             //TODO current dateni olamiz va lastEditeddatega yozamiz
-            val newLastEditedDate = "yangilandi"
+            val newLastEditedDate = Calendar.getInstance().time
 
             val oldCreatedDate = "Bu yerda asli birinchi kiritilgan createdDate"
 
@@ -131,7 +143,7 @@ class NoteDetailsFragment : Fragment() {
                 fullText = newFullText,
                 lastEditedDate = newLastEditedDate,
                 imagePaths = newImagePaths,
-                createdDate = oldCreatedDate
+                createdDate = pressedNote.createdDate
             )
 
             Log.d("tyua", "uida title: $newTitle")
@@ -140,20 +152,17 @@ class NoteDetailsFragment : Fragment() {
 
         }
 
+        binding.detailsDeleteNoteButton.setOnClickListener {
+
+            viewModel.deleteNote(pressedNote)
+
+            navigateBackToNotesList()
+
+        }
+
     }
 
-//    private fun swapVisibilityOfPairViews(textView: TextView, editText: EditText) {
-//
-//        if (textView.visibility == View.VISIBLE) {
-//
-//            textView.visibility = View.INVISIBLE
-//            editText.visibility = View.VISIBLE
-//        } else {
-//            textView.visibility = View.VISIBLE
-//            editText.visibility = View.INVISIBLE
-//        }
-//
-//    }
+
 
     private fun readModeSwitcher(textView: TextView, editText: EditText, toggleButton: ImageView) {
 
@@ -170,6 +179,13 @@ class NoteDetailsFragment : Fragment() {
         editText.visibility = View.VISIBLE
 
         toggleButton.visibility = View.INVISIBLE
+
+    }
+
+    private fun navigateBackToNotesList() {
+
+        //TODO klaviaturani yopish kerak
+        this.findNavController().popBackStack(R.id.noteDetailsFragment, true)
 
     }
 

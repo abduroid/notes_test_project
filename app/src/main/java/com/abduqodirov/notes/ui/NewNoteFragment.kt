@@ -14,6 +14,7 @@ import com.abduqodirov.notes.model.Note
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_notes.*
+import java.util.*
 
 class NewNoteFragment : Fragment() {
 
@@ -49,14 +50,15 @@ class NewNoteFragment : Fragment() {
 
             val newTitle = binding.newNoteTitleInput.text.toString()
             val newFullText = binding.newNoteFullTextInput.text.toString()
-            val newCreatedDate = "MOCK Created date"
+            val newCreatedDate = Calendar.getInstance().time
             val newImages = "MOCK images"
 
             val newNote = Note(
                 title = newTitle,
                 fullText = newFullText,
                 createdDate = newCreatedDate,
-                imagePaths = newImages
+                imagePaths = newImages,
+                lastEditedDate = newCreatedDate
             )
 
             viewModel.addNewNote(newNote = newNote)
