@@ -7,5 +7,13 @@
     <fragment
         android:id="@+id/notesListFragment"
         android:name="com.abduqodirov.notes.ui.NotesListFragment"
-        android:label="NotesListFragment" />
+        android:label="NotesListFragment" >
+        <action
+            android:id="@+id/action_notesListFragment_to_newNoteFragment"
+            app:destination="@id/newNoteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newNoteFragment"
+        android:name="com.abduqodirov.notes.ui.NewNoteFragment"
+        android:label="NewNoteFragment" />
 </navigation>

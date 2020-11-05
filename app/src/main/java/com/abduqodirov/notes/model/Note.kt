@@ -28,5 +28,5 @@ data class Note(
 
     @ColumnInfo(name = "lastEditedDate")
     //TODO Tipi Stringmas Date bo'ladi. TypeConverter from KCal calculator
-    var lastEditedDate: String
+    var lastEditedDate: String = ""
 )

@@ -5,23 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import com.abduqodirov.notes.NotesAdapter
 import com.abduqodirov.notes.R
 import com.abduqodirov.notes.database.NoteDatabase
-import com.abduqodirov.notes.databinding.FragmentNotesBinding
+import com.abduqodirov.notes.databinding.FragmentNewNoteBinding
 import com.abduqodirov.notes.model.Note
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
+import kotlinx.android.synthetic.main.fragment_notes.*
 
-class NotesListFragment : Fragment() {
+class NewNoteFragment : Fragment() {
 
-    private var _binding: FragmentNotesBinding? = null
+    private var _binding: FragmentNewNoteBinding? = null
 
     private val binding get() = _binding!!
-
 
     private lateinit var viewModel: NotesViewModel
 
@@ -31,11 +29,10 @@ class NotesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentNotesBinding.inflate(inflater, container, false)
+        _binding = FragmentNewNoteBinding.inflate(layoutInflater, container, false)
+
         return binding.root
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,40 +45,35 @@ class NotesListFragment : Fragment() {
             requireActivity(), viewModelFactory
         ).get(NotesViewModel::class.java)
 
+        binding.newNoteSubmitButton.setOnClickListener {
 
-        val notesAdapter = NotesAdapter(
-            noteClickListener = NotesAdapter.NoteItemClickCallback { pressedNote: Note ->
-                //TODO use clicked note
-            }
-        )
+            val newTitle = binding.newNoteTitleInput.text.toString()
+            val newFullText = binding.newNoteFullTextInput.text.toString()
+            val newCreatedDate = "MOCK Created date"
+            val newImages = "MOCK images"
 
-        binding.notesRecycler.apply {
-            adapter = notesAdapter
-            setHasFixedSize(true)
-        }
+            val newNote = Note(
+                title = newTitle,
+                fullText = newFullText,
+                createdDate = newCreatedDate,
+                imagePaths = newImages
+            )
 
-        viewModel.getAllNotesFromLocalDatabase().observe(viewLifecycleOwner, Observer {
+            viewModel.addNewNote(newNote = newNote)
 
-            notesAdapter.submitList(it)
-
-        })
-
-        binding.notesAddNewButton.setOnClickListener {
-
-            navigateToNewNoteFragment()
-
+            navigateBackToNotesList()
         }
 
     }
 
-    private fun navigateToNewNoteFragment() {
+    private fun navigateBackToNotesList() {
 
-        this.findNavController().navigate(R.id.action_notesListFragment_to_newNoteFragment)
+        this.findNavController().popBackStack(R.id.newNoteFragment, true)
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
