@@ -1,7 +1,8 @@
-package com.abduqodirov.notes
+package com.abduqodirov.notes.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.abduqodirov.notes.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
