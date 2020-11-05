@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/details_title_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/details_title_toggle_button"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="64dp" />
+
+    <EditText
+        android:id="@+id/details_title_input"
+        android:layout_height="0dp"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@id/details_title_text"
+        app:layout_constraintEnd_toEndOf="@id/details_title_text"
+        app:layout_constraintTop_toTopOf="@id/details_title_text"
+        app:layout_constraintBottom_toBottomOf="@id/details_title_text" />
+
+    <ImageView
+        android:id="@+id/details_title_toggle_button"
+        app:layout_constraintTop_toTopOf="@id/details_title_text"
+        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:tint="@color/colorPrimary" />
+
+
+    <TextView
+        android:id="@+id/details_full_text"
+        app:layout_constraintTop_toBottomOf="@id/details_title_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/details_full_toggle_button"
+        android:layout_width="0dp"
+        android:layout_height="64dp" />
+
+    <EditText
+        android:id="@+id/details_full_input"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="@id/details_full_text"
+        app:layout_constraintEnd_toEndOf="@id/details_full_text"
+        app:layout_constraintTop_toTopOf="@id/details_full_text"
+        app:layout_constraintBottom_toBottomOf="@id/details_full_text" />
+
+    <ImageView
+        android:id="@+id/details_full_toggle_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:srcCompat="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_full_text"
+        app:layout_constraintTop_toTopOf="@id/details_full_text"
+        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
+        app:tint="@color/colorPrimary"
+        />
+
+
+    <TextView
+        android:id="@+id/details_images_text"
+        app:layout_constraintTop_toBottomOf="@id/details_full_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/details_created_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/details_images_text"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent=".5"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/details_last_edited_date"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent=".5"
+        app:layout_constraintTop_toTopOf="@id/details_created_date"
+        app:layout_constraintBottom_toBottomOf="@id/details_created_date"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/details_submit_button"
+        app:layout_constraintTop_toBottomOf="@id/details_last_edited_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

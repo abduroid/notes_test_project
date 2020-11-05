@@ -11,9 +11,20 @@
         <action
             android:id="@+id/action_notesListFragment_to_newNoteFragment"
             app:destination="@id/newNoteFragment" />
+        <action
+            android:id="@+id/action_notesListFragment_to_noteDetailsFragment"
+            app:destination="@id/noteDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/newNoteFragment"
         android:name="com.abduqodirov.notes.ui.NewNoteFragment"
         android:label="NewNoteFragment" />
+    <fragment
+        android:id="@+id/noteDetailsFragment"
+        android:name="com.abduqodirov.notes.ui.NoteDetailsFragment"
+        android:label="NoteDetailsFragment" >
+        <argument
+            android:name="pressedNoteId"
+            app:argType="long" />
+    </fragment>
 </navigation>

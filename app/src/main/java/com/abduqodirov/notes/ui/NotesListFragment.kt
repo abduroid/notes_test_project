@@ -52,6 +52,10 @@ class NotesListFragment : Fragment() {
         val notesAdapter = NotesAdapter(
             noteClickListener = NotesAdapter.NoteItemClickCallback { pressedNote: Note ->
                 //TODO use clicked note
+
+                navigateToNoteDetailsFragment(pressedNote)
+
+
             }
         )
 
@@ -77,6 +81,14 @@ class NotesListFragment : Fragment() {
     private fun navigateToNewNoteFragment() {
 
         this.findNavController().navigate(R.id.action_notesListFragment_to_newNoteFragment)
+
+    }
+
+    private fun navigateToNoteDetailsFragment(pressedNote: Note) {
+
+        this.findNavController().navigate(
+            NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(pressedNoteId = pressedNote.id)
+        )
 
     }
 

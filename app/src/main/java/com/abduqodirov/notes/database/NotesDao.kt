@@ -11,10 +11,13 @@ interface NotesDao {
     fun insertNewNote(newNote: Note)
 
     @Update
-    fun updateNote(updatingNote: Note)
+    fun update(updatingNote: Note)
 
     @Delete
     fun deleteNote(deletingNote: Note)
+
+    @Query("SELECT * FROM notes WHERE :id = id")
+    fun getNoteById(id: Long): LiveData<Note>
 
     @Query("SELECT * FROM notes ORDER BY id DESC")
     fun getAllNotesLive(): LiveData<List<Note>>

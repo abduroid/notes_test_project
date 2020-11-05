@@ -68,6 +68,7 @@ class NewNoteFragment : Fragment() {
 
     private fun navigateBackToNotesList() {
 
+        //TODO klaviaturani yopish kerak
         this.findNavController().popBackStack(R.id.newNoteFragment, true)
 
     }

@@ -1,5 +1,7 @@
 package com.abduqodirov.notes.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.abduqodirov.notes.database.NotesDao
 import com.abduqodirov.notes.model.Note
@@ -14,8 +16,11 @@ class NotesViewModel(
 
     fun getAllNotesFromLocalDatabase() = localDatabase.getAllNotesLive()
 
+    fun getNoteById(id: Long) = localDatabase.getNoteById(id)
+
     fun updateNote(updatingNote: Note) {
 
+        Log.d("tyua", "scopedagisiga keldi title: ${updatingNote.title}")
         viewModelScope.launch {
             updateOnRoom(note = updatingNote)
         }
@@ -40,8 +45,10 @@ class NotesViewModel(
 
     private suspend fun updateOnRoom(note: Note) {
 
+        Log.d("tyua", "suspendga keldi title: ${note.title}")
         withContext(Dispatchers.IO) {
-            localDatabase.updateNote(note)
+            localDatabase.update(note)
+            Log.d("tyua", "update qildi")
         }
 
     }

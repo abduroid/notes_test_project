@@ -24,7 +24,7 @@ data class Note(
 
     //TODO Tipi Stringmas Date bo'ladi. TypeConverter from KCal calculator
     @ColumnInfo(name = "createdDate")
-    var createdDate: String,
+    val createdDate: String,
 
     @ColumnInfo(name = "lastEditedDate")
     //TODO Tipi Stringmas Date bo'ladi. TypeConverter from KCal calculator
