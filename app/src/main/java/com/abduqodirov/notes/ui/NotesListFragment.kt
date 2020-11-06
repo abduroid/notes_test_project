@@ -1,9 +1,11 @@
 package com.abduqodirov.notes.ui
 
 import android.os.Bundle
+import android.text.BoringLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -76,6 +78,12 @@ class NotesListFragment : Fragment() {
 
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback {
+            if (isAdded) {
+                requireActivity().finish()
+            }
+        }
+
     }
 
     private fun navigateToNewNoteFragment() {
@@ -113,7 +121,7 @@ class NotesListFragment : Fragment() {
 
             val fragmentTransaction = fragmentManager.beginTransaction()
             val noteDetailsFragment = NoteDetailsFragment(pressedNote)
-            fragmentTransaction.replace(R.id.left_pane_container, noteDetailsFragment)
+            fragmentTransaction.add(R.id.left_pane_container, noteDetailsFragment)
             fragmentTransaction.commit()
         }
 
@@ -122,7 +130,9 @@ class NotesListFragment : Fragment() {
     }
 
     private fun isTablet(): Boolean {
-         return resources.getBoolean(R.bool.is_tablet)
+
+        return requireActivity().resources.getBoolean(R.bool.is_tablet)
+
     }
 
 

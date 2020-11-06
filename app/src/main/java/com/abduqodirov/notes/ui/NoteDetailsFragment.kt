@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -79,7 +80,8 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
 
                 if (activeNote.createdDate != activeNote.lastEditedDate) {
-                    binding.detailsLastEditedDate.text = DateFormatter().formatDate(activeNote.lastEditedDate)
+                    binding.detailsLastEditedDate.text =
+                        DateFormatter().formatDate(activeNote.lastEditedDate)
                 }
 
                 //TODO images fix
@@ -133,7 +135,7 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
             //TODO keyboard hide
 
-            Log.d("tyua","submit bosildi")
+            Log.d("tyua", "submit bosildi")
 
             //TODO agar o'zgarish bo'lmasa eskisini olaverishi uchun edittextlarga old valuelarni berib chiqamiz.
 
@@ -170,8 +172,34 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
         }
 
-    }
+        activity?.let {
 
+            it.onBackPressedDispatcher.addCallback {
+
+                if (isAdded) {
+
+                    if (isTablet()) {
+
+                        requireActivity().finish()
+
+                    } else {
+
+                        val fragmentManager = requireActivity().supportFragmentManager
+
+                        val fragmentTransaction = fragmentManager.beginTransaction()
+
+                        val noteListFragment = NotesListFragment()
+
+                        fragmentTransaction.replace(R.id.left_pane_container, noteListFragment)
+                        fragmentTransaction.commit()
+
+                    }
+                }
+            }
+
+        }
+
+    }
 
 
     private fun readModeSwitcher(textView: TextView, editText: EditText, toggleButton: ImageView) {
@@ -202,7 +230,12 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+
         _binding = null
+    }
+
+    private fun isTablet(): Boolean {
+        return requireActivity().resources.getBoolean(R.bool.is_tablet)
     }
 
 }

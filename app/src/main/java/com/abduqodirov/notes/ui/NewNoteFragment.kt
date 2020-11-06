@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -106,6 +107,33 @@ class NewNoteFragment : Fragment() {
             navigateBackToNotesList()
         }
 
+        activity?.let {
+
+            it.onBackPressedDispatcher.addCallback {
+
+                if (isAdded) {
+
+                    if (isTablet()) {
+
+                        requireActivity().finish()
+
+                    } else {
+
+                        val fragmentManager = requireActivity().supportFragmentManager
+
+                        val fragmentTransaction = fragmentManager.beginTransaction()
+
+                        val noteListFragment = NotesListFragment()
+
+                        fragmentTransaction.replace(R.id.left_pane_container, noteListFragment)
+                        fragmentTransaction.commit()
+
+                    }
+                }
+            }
+
+        }
+
     }
 
     private fun checkReadWritePermission(): Boolean {
@@ -194,6 +222,12 @@ class NewNoteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun isTablet(): Boolean {
+
+        return requireActivity().resources.getBoolean(R.bool.is_tablet)
+
     }
 
 }

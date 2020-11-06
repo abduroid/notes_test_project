@@ -19,14 +19,15 @@ class MainActivity : AppCompatActivity() {
         val fragmentTransaction = fragmentManager.beginTransaction()
 
         val notesListFragment = NotesListFragment()
-        fragmentTransaction.add(R.id.left_pane_container, notesListFragment)
+        fragmentTransaction.replace(R.id.left_pane_container, notesListFragment)
         fragmentTransaction.commit()
 
     }
 
-    private fun isTablet(): Boolean {
+    fun isTablet(): Boolean {
         return resources.getBoolean(R.bool.is_tablet)
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
