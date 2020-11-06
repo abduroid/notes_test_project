@@ -1,5 +1,9 @@
 package com.abduqodirov.notes.ui
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
@@ -21,9 +25,12 @@ import com.abduqodirov.notes.database.NoteDatabase
 import com.abduqodirov.notes.databinding.FragmentNoteDetailsBinding
 import com.abduqodirov.notes.model.Note
 import com.abduqodirov.notes.util.DateFormatter
+import com.abduqodirov.notes.util.IMAGE_CHOOSE_REQUEST_CODE
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import java.io.File
+import java.io.FileNotFoundException
 import java.util.*
 
 class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
@@ -34,7 +41,7 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
     private lateinit var viewModel: NotesViewModel
 
-//    val args: NoteDetailsFragmentArgs by navArgs()
+    private var addedImagePath = ""
 
 
     override fun onCreateView(
@@ -131,34 +138,39 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
         }
 
+        binding.detailsImage.setOnClickListener {
+            val chooseImageIntent = Intent(Intent.ACTION_PICK)
+            chooseImageIntent.type = "image/*"
+            startActivityForResult(chooseImageIntent, IMAGE_CHOOSE_REQUEST_CODE)
+        }
+
         binding.detailsSubmitButton.setOnClickListener {
 
             //TODO keyboard hide
 
-            Log.d("tyua", "submit bosildi")
-
-            //TODO agar o'zgarish bo'lmasa eskisini olaverishi uchun edittextlarga old valuelarni berib chiqamiz.
-
-            //TODO yangi datalarni TextViewlarga set qilamiz
             val newTitle = binding.detailsTitleInput.text.toString()
             val newFullText = binding.detailsFullInput.text.toString()
-            val newImagePaths = "TODO new image paths" //TODO new images
 
-            //TODO current dateni olamiz va lastEditeddatega yozamiz
             val newLastEditedDate = Calendar.getInstance().time
 
-            val oldCreatedDate = "Bu yerda asli birinchi kiritilgan createdDate"
+            var newImages = ""
+
+            if (addedImagePath.isNotEmpty()) {
+
+                newImages = addedImagePath
+
+            }
+
 
             val updatingNote = Note(
                 id = pressedNoteId,
                 title = newTitle,
                 fullText = newFullText,
                 lastEditedDate = newLastEditedDate,
-                imagePaths = newImagePaths,
+                imagePaths = newImages,
                 createdDate = pressedNote.createdDate
             )
 
-            Log.d("tyua", "uida title: $newTitle")
 
             viewModel.updateNote(updatingNote = updatingNote)
 
@@ -218,6 +230,48 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
         toggleButton.visibility = View.INVISIBLE
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == IMAGE_CHOOSE_REQUEST_CODE
+            && resultCode == Activity.RESULT_OK
+        ) {
+
+            try {
+                val imageUri = data?.data
+                if (imageUri != null) {
+                    val inputStream = requireActivity().contentResolver.openInputStream(imageUri)
+                    val chosenImage = BitmapFactory.decodeStream(inputStream)
+                    binding.detailsImage.setImageBitmap(chosenImage)
+                    binding.detailsImage.setColorFilter(Color.TRANSPARENT)
+
+                    addedImagePath = saveBitmapToAppStorage(chosenImage)
+                    //TODO add savedImage paths to Note object
+
+                }
+
+            } catch (e: FileNotFoundException) {
+                e.printStackTrace()
+                Snackbar.make(requireView(), "Something went wrong", Snackbar.LENGTH_SHORT).show()
+            }
+
+        } else {
+            Snackbar.make(requireView(), "You haven't picked an image", Snackbar.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun saveBitmapToAppStorage(chosenImage: Bitmap): String {
+
+        val imageFileName = "img_${System.currentTimeMillis()}.jpg"
+
+        requireContext().openFileOutput(imageFileName, Context.MODE_PRIVATE).use {
+            chosenImage.compress(Bitmap.CompressFormat.JPEG, 100, it)
+        }
+
+        return imageFileName
     }
 
     private fun navigateBackToNotesList() {

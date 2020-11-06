@@ -20,7 +20,6 @@ class NotesViewModel(
 
     fun updateNote(updatingNote: Note) {
 
-        Log.d("tyua", "scopedagisiga keldi title: ${updatingNote.title}")
         viewModelScope.launch {
             updateOnRoom(note = updatingNote)
         }

@@ -197,7 +197,7 @@ class NewNoteFragment : Fragment() {
 
     private fun saveBitmapToAppStorage(chosenImage: Bitmap): String {
 
-        val imageFileName = "img_${System.currentTimeMillis()}"
+        val imageFileName = "img_${System.currentTimeMillis()}.jpg"
 
         requireContext().openFileOutput(imageFileName, Context.MODE_PRIVATE).use {
             chosenImage.compress(Bitmap.CompressFormat.JPEG, 100, it)
