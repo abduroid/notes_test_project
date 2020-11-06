@@ -1,127 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@android:color/white">
 
     <TextView
         android:id="@+id/details_title_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="wrap_content"
-        tools:text="sdfsdsda"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textSize="26sp"
         android:maxLines="1"
         android:textColor="@android:color/black"
-        android:layout_height="wrap_content" />
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="sdfsdsda" />
 
     <EditText
         android:id="@+id/details_title_input"
-        android:layout_height="0dp"
         android:layout_width="0dp"
-        app:layout_constraintStart_toStartOf="@id/details_title_text"
-        app:layout_constraintEnd_toEndOf="@id/details_title_text"
-        app:layout_constraintTop_toTopOf="@id/details_title_text"
-        app:layout_constraintBottom_toBottomOf="@id/details_title_text" />
+        android:layout_height="wrap_content"
+        android:hint="@string/title"
+        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/details_title_text" />
 
     <ImageView
         android:id="@+id/details_title_toggle_button"
-        app:layout_constraintTop_toTopOf="@id/details_title_text"
-        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
-        app:layout_constraintStart_toEndOf="@id/details_title_text"
-        app:layout_constraintHorizontal_bias="0"
-        android:layout_marginStart="16dp"
-        app:srcCompat="@drawable/ic_edit"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:tint="@color/colorPrimary"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/details_title_text"
+        app:layout_constraintTop_toTopOf="@id/details_title_text"
+        app:srcCompat="@drawable/ic_edit"
+        app:tint="@color/colorPrimary" />
 
 
     <TextView
         android:id="@+id/details_full_text"
-        app:layout_constraintTop_toBottomOf="@id/details_title_text"
-        app:layout_constraintStart_toStartOf="@id/details_title_text"
-        android:textSize="22sp"
-        android:layout_marginTop="16dp"
-        android:textAlignment="viewStart"
-        android:maxLines="3"
-        tools:text="fsafds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start" />
+        android:layout_marginTop="16dp"
+        android:gravity="start"
+        android:maxLines="3"
+        android:textAlignment="viewStart"
+        android:textSize="22sp"
+        app:layout_constraintStart_toStartOf="@id/details_title_text"
+        app:layout_constraintTop_toBottomOf="@id/details_title_text"
+        tools:text="fsafds" />
 
     <EditText
         android:id="@+id/details_full_input"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="@id/details_full_text"
-        app:layout_constraintEnd_toEndOf="@id/details_full_text"
-        app:layout_constraintTop_toTopOf="@id/details_full_text"
-        app:layout_constraintBottom_toBottomOf="@id/details_full_text" />
+        android:layout_height="wrap_content"
+        android:hint="@string/full_text"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/details_full_text" />
 
     <ImageView
         android:id="@+id/details_full_toggle_button"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:srcCompat="@drawable/ic_edit"
         android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
         app:layout_constraintStart_toEndOf="@id/details_full_text"
         app:layout_constraintTop_toTopOf="@id/details_full_text"
-        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
-        app:tint="@color/colorPrimary"
-        android:layout_marginLeft="16dp" />
+        app:srcCompat="@drawable/ic_edit"
+        app:tint="@color/colorPrimary" />
 
 
     <ImageView
         android:id="@+id/details_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/details_full_text"
         app:layout_constraintTop_toBottomOf="@id/details_full_text"
         app:srcCompat="@drawable/ic_add_photo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
         app:tint="@color/colorPrimary" />
+
+
+
+
+    <TextView
+        android:id="@+id/details_disclaimer_created"
+        android:layout_width="0dp"
+        android:text="@string/created_date"
+        app:layout_constraintStart_toStartOf="@id/details_image"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/details_image"
+        app:layout_constraintWidth_percent=".5"/>
 
     <TextView
         android:id="@+id/details_created_date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/details_image"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/details_disclaimer_created"
+        app:layout_constraintTop_toBottomOf="@id/details_disclaimer_created"
+        app:layout_constraintWidth_percent=".5" />
+
+
+
+    <TextView
+        android:id="@+id/details_disclaimer_last_edited"
+        android:layout_width="0dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/details_disclaimer_created"
         app:layout_constraintWidth_percent=".5"
-        android:layout_height="wrap_content" />
+        android:text="@string/last_edited_date"
+        android:textAlignment="viewEnd"
+        android:layout_marginRight="16dp"
+        android:gravity="end" />
 
     <TextView
         android:id="@+id/details_last_edited_date"
         android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toEndOf="@id/details_disclaimer_last_edited"
+        app:layout_constraintTop_toBottomOf="@id/details_disclaimer_last_edited"
         app:layout_constraintWidth_percent=".5"
-        app:layout_constraintTop_toTopOf="@id/details_created_date"
-        app:layout_constraintBottom_toBottomOf="@id/details_created_date"
-        android:layout_height="wrap_content" />
+        android:gravity="end" />
 
     <Button
         android:id="@+id/details_submit_button"
-        app:layout_constraintTop_toBottomOf="@id/details_last_edited_date"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/save"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toBottomOf="@id/details_last_edited_date" />
 
     <TextView
         android:id="@+id/details_delete_note_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textAlignment="center"
-        android:text="@string/link_button_delete_note"
-        android:textSize="22sp"
-        android:textColor="@color/red"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:text="@string/link_button_delete_note"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

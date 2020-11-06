@@ -7,5 +7,10 @@
     <string name="pref_key">prefi</string>
     <string name="key_read_write_storage_is_asked">readAndWrite</string>
     <string name="save">Save</string>
+    <string name="created_date">Created date</string>
+    <string name="last_edited_date">Last edited date</string>
+    <string name="title">Title</string>
+    <string name="full_text">Full text</string>
+    <string name="empty_notes_disclaimer">You haven\'t created any notes yet. Press + button to create one</string>
 
 </resources>

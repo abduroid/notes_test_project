@@ -87,6 +87,7 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
 
                 if (activeNote.createdDate != activeNote.lastEditedDate) {
+                    binding.detailsDisclaimerLastEdited.visibility = View.VISIBLE
                     binding.detailsLastEditedDate.text =
                         DateFormatter().formatDate(activeNote.lastEditedDate)
                 }

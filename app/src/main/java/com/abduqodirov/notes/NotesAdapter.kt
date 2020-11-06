@@ -1,6 +1,7 @@
 package com.abduqodirov.notes
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -36,6 +37,7 @@ class NotesAdapter(
 
             //Yaralgandan beri o'zgarganmi yo'qmi ikkalasini solishtirib tekshiradi.
             if (note.createdDate != note.lastEditedDate) {
+                itemNoteBinding.itemDisclaimerLastEdited.visibility = View.VISIBLE
                 itemNoteBinding.itemLastEditedDateText.text = DateFormatter().formatDate(note.lastEditedDate)
             }
 

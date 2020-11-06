@@ -68,7 +68,16 @@ class NotesListFragment : Fragment() {
 
         viewModel.getAllNotesFromLocalDatabase().observe(viewLifecycleOwner, Observer {
 
-            notesAdapter.submitList(it)
+            if (it.isEmpty()) {
+
+                binding.notesEmptyDisclaimer.visibility = View.VISIBLE
+                binding.notesRecycler.visibility = View.INVISIBLE
+            } else {
+                binding.notesRecycler.visibility = View.VISIBLE
+                binding.notesEmptyDisclaimer.visibility = View.INVISIBLE
+                notesAdapter.submitList(it)
+            }
+
 
         })
 
