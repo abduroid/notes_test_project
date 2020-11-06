@@ -20,7 +20,7 @@ data class Note(
 
     //TODO tipi Stringmas, ArrayList<String> bo'ladi. arraydan stringga, stringdan arrayga TypeConverter
     @ColumnInfo(name = "imagePaths")
-    var imagePaths: String,
+    var imagePaths: ArrayList<String>,
 
     //TODO Tipi Stringmas Date bo'ladi. TypeConverter from KCal calculator
     @ColumnInfo(name = "createdDate")

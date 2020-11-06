@@ -1,4 +1,4 @@
-package com.abduqodirov.notes
+package com.abduqodirov.notes.adapter
 
 import android.view.LayoutInflater
 import android.view.View

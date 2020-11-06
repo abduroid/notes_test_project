@@ -27,13 +27,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/new_note_images_recycler"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/new_note_full_text_input"
+            app:layout_constraintTop_toBottomOf="@id/new_note_full_text_input"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
     <ImageView
-        android:id="@+id/new_note_image"
-        android:layout_width="100dp"
-        app:layout_constraintTop_toBottomOf="@id/new_note_full_text_input"
-        app:layout_constraintStart_toStartOf="@id/new_note_full_text_input"
+        android:id="@+id/new_note_add_image_button"
+        app:layout_constraintStart_toEndOf="@id/new_note_images_recycler"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toTopOf="@id/new_note_images_recycler"
+        app:layout_constraintBottom_toBottomOf="@id/new_note_images_recycler"
+        android:layout_width="64dp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_photo"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         app:tint="@color/colorPrimary" />
 
     <Button

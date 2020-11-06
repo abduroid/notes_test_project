@@ -18,19 +18,20 @@ import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import com.abduqodirov.notes.R
+import com.abduqodirov.notes.adapter.ImagesAdapter
 import com.abduqodirov.notes.database.NoteDatabase
 import com.abduqodirov.notes.databinding.FragmentNewNoteBinding
 import com.abduqodirov.notes.model.Note
+import com.abduqodirov.notes.util.ADD_IMAGE_KEYWORD
 import com.abduqodirov.notes.util.EXTERNAL_STORAGE_READ_WRITE_PERMISSION_REQUEST_CODE
 import com.abduqodirov.notes.util.IMAGE_CHOOSE_REQUEST_CODE
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_notes.*
 import java.io.FileNotFoundException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NewNoteFragment : Fragment() {
 
@@ -42,7 +43,10 @@ class NewNoteFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPreferences
 
-    private var addedImagePath = ""
+//    private var addedImagePath = ""
+    private var addedImagesPaths = ArrayList<String>()
+
+    private lateinit var imageAdapter: ImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,13 +75,27 @@ class NewNoteFragment : Fragment() {
             requireActivity(), viewModelFactory
         ).get(NotesViewModel::class.java)
 
-        binding.newNoteImage.setOnClickListener {
 
+        imageAdapter = ImagesAdapter(
+            imageClickListener = ImagesAdapter.ImageClickListener {
+            },
+            imageRemoveClickListener = ImagesAdapter.ImageRemoveClickListener {
+
+                viewModel.removeImage(imagePath = it)
+
+            }
+        )
+
+        binding.newNoteImagesRecycler.apply {
+            adapter = imageAdapter
+        }
+
+        binding.newNoteAddImageButton.setOnClickListener {
             val chooseImageIntent = Intent(Intent.ACTION_PICK)
             chooseImageIntent.type = "image/*"
             startActivityForResult(chooseImageIntent, IMAGE_CHOOSE_REQUEST_CODE)
-
         }
+
 
         binding.newNoteSubmitButton.setOnClickListener {
 
@@ -85,20 +103,12 @@ class NewNoteFragment : Fragment() {
             val newFullText = binding.newNoteFullTextInput.text.toString()
             val newCreatedDate = Calendar.getInstance().time
 
-            var newImages = ""
-
-            if (addedImagePath.isNotEmpty()) {
-
-                newImages = addedImagePath
-
-            }
-
 
             val newNote = Note(
                 title = newTitle,
                 fullText = newFullText,
                 createdDate = newCreatedDate,
-                imagePaths = newImages,
+                imagePaths = addedImagesPaths,
                 lastEditedDate = newCreatedDate
             )
 
@@ -134,7 +144,19 @@ class NewNoteFragment : Fragment() {
 
         }
 
+        viewModel.images.observe(viewLifecycleOwner, {
+            Log.d("ovua", "ViewModelda o'zgarish" )
+            for (image in it) {
+                Log.d("ovua", "index: ${it.indexOf(image)} value: $it")
+            }
+
+            imageAdapter.submitList(it)
+            imageAdapter.notifyDataSetChanged()
+        })
+
     }
+
+
 
     private fun checkReadWritePermission(): Boolean {
         val write = ContextCompat.checkSelfPermission(
@@ -169,19 +191,17 @@ class NewNoteFragment : Fragment() {
 
         if (requestCode == IMAGE_CHOOSE_REQUEST_CODE
             && resultCode == RESULT_OK) {
-            Log.d("tyua", "image keldi buyoqqa")
 
             try {
                 val imageUri = data?.data
                 if (imageUri != null) {
                     val inputStream = requireActivity().contentResolver.openInputStream(imageUri)
                     val chosenImage = BitmapFactory.decodeStream(inputStream)
-                    binding.newNoteImage.setImageBitmap(chosenImage)
-                    binding.newNoteImage.setColorFilter(Color.TRANSPARENT)
 
-                    addedImagePath = saveBitmapToAppStorage(chosenImage)
-                    //TODO add savedImage paths to Note object
+                    val addedImagePath = saveBitmapToAppStorage(chosenImage)
 
+                    Log.d("ovua", "$addedImagePath filega saqlandi")
+                    viewModel.addImage(imagePath = addedImagePath)
                 }
 
             } catch (e: FileNotFoundException) {

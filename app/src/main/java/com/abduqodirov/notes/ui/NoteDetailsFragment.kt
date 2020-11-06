@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.abduqodirov.notes.R
+import com.abduqodirov.notes.adapter.ImagesAdapter
 import com.abduqodirov.notes.database.NoteDatabase
 import com.abduqodirov.notes.databinding.FragmentNoteDetailsBinding
 import com.abduqodirov.notes.model.Note
@@ -32,6 +33,7 @@ import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileNotFoundException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
@@ -41,7 +43,12 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
     private lateinit var viewModel: NotesViewModel
 
-    private var addedImagePath = ""
+//    private var addedImagePath = ""
+
+    private var receivedImagePaths = ArrayList<String>()
+    private var addedImagesPaths = ArrayList<String>()
+
+    private lateinit var imagesAdapter: ImagesAdapter
 
 
     override fun onCreateView(
@@ -92,15 +99,36 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
                         DateFormatter().formatDate(activeNote.lastEditedDate)
                 }
 
-                //TODO images fix
+                receivedImagePaths = activeNote.imagePaths
+                receivedImagePaths.map {
+                    addedImagesPaths.add(it)
+                    Log.d("ovua", "Receiveddan addedga qo'shildi: $it")
+                }
 
-                if (activeNote.imagePaths.isNotEmpty()) {
-                    val imageFile = File(requireContext().filesDir, activeNote.imagePaths)
 
-                    val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+                //TODO iterate images array
 
-                    binding.detailsImage.setImageBitmap(bitmap)
-                    binding.detailsImage.setColorFilter(Color.TRANSPARENT)
+                if (receivedImagePaths.isNotEmpty()) {
+
+
+                    imagesAdapter = ImagesAdapter(
+                        imageClickListener = ImagesAdapter.ImageClickListener {
+                            val chooseImageIntent = Intent(Intent.ACTION_PICK)
+                            chooseImageIntent.type = "image/*"
+                            startActivityForResult(chooseImageIntent, IMAGE_CHOOSE_REQUEST_CODE)
+                        },
+                        imageRemoveClickListener = ImagesAdapter.ImageRemoveClickListener {
+
+                        }
+                    )
+
+                    binding.detailsImagesRecycler.apply {
+                        setHasFixedSize(true)
+                        adapter = imagesAdapter
+                    }
+
+                    imagesAdapter.submitList(receivedImagePaths)
+
                 }
 
 
@@ -139,12 +167,6 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
         }
 
-        binding.detailsImage.setOnClickListener {
-            val chooseImageIntent = Intent(Intent.ACTION_PICK)
-            chooseImageIntent.type = "image/*"
-            startActivityForResult(chooseImageIntent, IMAGE_CHOOSE_REQUEST_CODE)
-        }
-
         binding.detailsSubmitButton.setOnClickListener {
 
             //TODO keyboard hide
@@ -154,11 +176,15 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
             val newLastEditedDate = Calendar.getInstance().time
 
-            var newImages = ""
+            var newImages = receivedImagePaths
 
-            if (addedImagePath.isNotEmpty()) {
+            if (addedImagesPaths != receivedImagePaths) {
 
-                newImages = addedImagePath
+                Log.d("ovua", "AddedImages bilan Receivedni farqi bor")
+                newImages = addedImagesPaths
+
+            } else {
+                Log.d("ovua", "AddedImages bilan Receivedni farqi Yo'q")
 
             }
 
@@ -215,6 +241,7 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
     }
 
 
+
     private fun readModeSwitcher(textView: TextView, editText: EditText, toggleButton: ImageView) {
 
         textView.visibility = View.VISIBLE
@@ -245,10 +272,18 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
                 if (imageUri != null) {
                     val inputStream = requireActivity().contentResolver.openInputStream(imageUri)
                     val chosenImage = BitmapFactory.decodeStream(inputStream)
-                    binding.detailsImage.setImageBitmap(chosenImage)
-                    binding.detailsImage.setColorFilter(Color.TRANSPARENT)
+                    //TODO ohiridagi plus image bosilsa add qilamiz faqat
 
-                    addedImagePath = saveBitmapToAppStorage(chosenImage)
+//
+//                    addim
+//
+//
+//                    addedImagesPaths.
+//
+//                    binding.detailsImage.setImageBitmap(chosenImage)
+//                    binding.detailsImage.setColorFilter(Color.TRANSPARENT)
+//
+//                    addedImagePath = saveBitmapToAppStorage(chosenImage)
                     //TODO add savedImage paths to Note object
 
                 }

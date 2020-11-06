@@ -1,7 +1,6 @@
 package com.abduqodirov.notes.ui
 
 import android.os.Bundle
-import android.text.BoringLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +8,7 @@ import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import com.abduqodirov.notes.NotesAdapter
+import com.abduqodirov.notes.adapter.NotesAdapter
 import com.abduqodirov.notes.R
 import com.abduqodirov.notes.database.NoteDatabase
 import com.abduqodirov.notes.databinding.FragmentNotesBinding

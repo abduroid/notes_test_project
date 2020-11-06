@@ -1,6 +1,5 @@
 package com.abduqodirov.notes.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.abduqodirov.notes.database.NotesDao
@@ -17,6 +16,45 @@ class NotesViewModel(
     fun getAllNotesFromLocalDatabase() = localDatabase.getAllNotesLive()
 
     fun getNoteById(id: Long) = localDatabase.getNoteById(id)
+
+    val images = MutableLiveData<ArrayList<String>>()
+
+    fun addImage(imagePath: String) {
+
+        var oldImages = images.value
+        if (oldImages == null) {
+            oldImages = ArrayList<String>()
+        }
+
+        oldImages.add(imagePath)
+
+        images.value = oldImages
+
+    }
+
+    fun removeImage(imagePath: String) {
+
+        val removingImage = images.value?.find { path -> path == imagePath }
+
+        if (removingImage != null) {
+
+            val oldImages = images.value
+
+            if (oldImages != null) {
+                oldImages.remove(imagePath)
+
+                images.value = oldImages
+            }
+
+
+
+        }
+
+    }
+
+    fun clearImagesArray() {
+        images.value = ArrayList<String>()
+    }
 
     fun updateNote(updatingNote: Note) {
 
