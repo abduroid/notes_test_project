@@ -1,6 +1,7 @@
 package com.abduqodirov.notes.ui
 
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -24,7 +25,7 @@ import com.abduqodirov.notes.viewmodel.ViewModelFactory
 import java.io.File
 import java.util.*
 
-class NoteDetailsFragment : Fragment() {
+class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
     private var _binding: FragmentNoteDetailsBinding? = null
 
@@ -32,9 +33,8 @@ class NoteDetailsFragment : Fragment() {
 
     private lateinit var viewModel: NotesViewModel
 
-    val args: NoteDetailsFragmentArgs by navArgs()
+//    val args: NoteDetailsFragmentArgs by navArgs()
 
-    private lateinit var pressedNote: Note
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,13 +59,11 @@ class NoteDetailsFragment : Fragment() {
         ).get(NotesViewModel::class.java)
 
 
-        val pressedNoteId = args.pressedNoteId
+        val pressedNoteId = pressedNote.id
 
         viewModel.getNoteById(pressedNoteId).observe(
             viewLifecycleOwner,
             Observer { activeNote: Note ->
-
-                pressedNote = activeNote
 
                 Log.d("tyua", "note yangilandi: $activeNote")
 
@@ -86,11 +84,16 @@ class NoteDetailsFragment : Fragment() {
 
                 //TODO images fix
 
-                val imageFile = File(requireContext().filesDir, activeNote.imagePaths)
+                if (activeNote.imagePaths.isNotEmpty()) {
+                    val imageFile = File(requireContext().filesDir, activeNote.imagePaths)
 
-                val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+                    val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
 
-                binding.detailsImage.setImageBitmap(bitmap)
+                    binding.detailsImage.setImageBitmap(bitmap)
+                    binding.detailsImage.setColorFilter(Color.TRANSPARENT)
+                }
+
+
 
 
                 readModeSwitcher(
@@ -145,7 +148,7 @@ class NoteDetailsFragment : Fragment() {
             val oldCreatedDate = "Bu yerda asli birinchi kiritilgan createdDate"
 
             val updatingNote = Note(
-                id = args.pressedNoteId,
+                id = pressedNoteId,
                 title = newTitle,
                 fullText = newFullText,
                 lastEditedDate = newLastEditedDate,

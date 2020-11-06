@@ -2,15 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:id="@+id/details_title_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/details_title_toggle_button"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="64dp" />
+        android:layout_width="wrap_content"
+        tools:text="sdfsdsda"
+        android:layout_margin="16dp"
+        android:textSize="26sp"
+        android:maxLines="1"
+        android:textColor="@android:color/black"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/details_title_input"
@@ -25,20 +30,29 @@
         android:id="@+id/details_title_toggle_button"
         app:layout_constraintTop_toTopOf="@id/details_title_text"
         app:layout_constraintBottom_toBottomOf="@id/details_title_text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_title_text"
+        app:layout_constraintHorizontal_bias="0"
+        android:layout_marginStart="16dp"
         app:srcCompat="@drawable/ic_edit"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        app:tint="@color/colorPrimary" />
+        app:tint="@color/colorPrimary"
+        android:layout_marginLeft="16dp" />
 
 
     <TextView
         android:id="@+id/details_full_text"
         app:layout_constraintTop_toBottomOf="@id/details_title_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/details_full_toggle_button"
-        android:layout_width="0dp"
-        android:layout_height="64dp" />
+        app:layout_constraintStart_toStartOf="@id/details_title_text"
+        android:textSize="22sp"
+        android:layout_marginTop="16dp"
+        android:textAlignment="viewStart"
+        android:maxLines="3"
+        tools:text="fsafds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="start" />
 
     <EditText
         android:id="@+id/details_full_input"
@@ -54,21 +68,23 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         app:srcCompat="@drawable/ic_edit"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/details_full_text"
         app:layout_constraintTop_toTopOf="@id/details_full_text"
         app:layout_constraintBottom_toBottomOf="@id/details_full_text"
         app:tint="@color/colorPrimary"
-        />
+        android:layout_marginLeft="16dp" />
 
 
     <ImageView
         android:id="@+id/details_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@id/details_full_text"
         app:layout_constraintTop_toBottomOf="@id/details_full_text"
+        app:srcCompat="@drawable/ic_add_photo"
         android:layout_width="100dp"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        app:tint="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/details_created_date"
@@ -91,6 +107,7 @@
         android:id="@+id/details_submit_button"
         app:layout_constraintTop_toBottomOf="@id/details_last_edited_date"
         android:layout_width="match_parent"
+        android:text="@string/save"
         android:layout_height="wrap_content" />
 
     <TextView

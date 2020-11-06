@@ -79,18 +79,52 @@ class NotesListFragment : Fragment() {
     }
 
     private fun navigateToNewNoteFragment() {
+        val fragmentManager = requireActivity().supportFragmentManager
 
-        this.findNavController().navigate(R.id.action_notesListFragment_to_newNoteFragment)
+        if (isTablet()) {
+
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val newNoteFragment = NewNoteFragment()
+            fragmentTransaction.add(R.id.right_pane_container, newNoteFragment)
+            fragmentTransaction.commit()
+        } else {
+
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val newNoteFragment = NewNoteFragment()
+            fragmentTransaction.add(R.id.left_pane_container, newNoteFragment)
+            fragmentTransaction.commit()
+        }
 
     }
 
     private fun navigateToNoteDetailsFragment(pressedNote: Note) {
 
-        this.findNavController().navigate(
-            NotesListFragmentDirections.actionNotesListFragmentToNoteDetailsFragment(pressedNoteId = pressedNote.id)
-        )
+        val fragmentManager = requireActivity().supportFragmentManager
+
+
+        if (isTablet()) {
+
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val noteDetailsFragment = NoteDetailsFragment(pressedNote)
+            fragmentTransaction.replace(R.id.right_pane_container, noteDetailsFragment)
+            fragmentTransaction.commit()
+
+        } else {
+
+            val fragmentTransaction = fragmentManager.beginTransaction()
+            val noteDetailsFragment = NoteDetailsFragment(pressedNote)
+            fragmentTransaction.replace(R.id.left_pane_container, noteDetailsFragment)
+            fragmentTransaction.commit()
+        }
+
+
 
     }
+
+    private fun isTablet(): Boolean {
+         return resources.getBoolean(R.bool.is_tablet)
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -181,7 +181,13 @@ class NewNoteFragment : Fragment() {
     private fun navigateBackToNotesList() {
 
         //TODO klaviaturani yopish kerak
-        this.findNavController().popBackStack(R.id.newNoteFragment, true)
+
+        val fragmentManager = requireActivity().supportFragmentManager
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.remove(this)
+        fragmentTransaction.commit()
+
 
     }
 

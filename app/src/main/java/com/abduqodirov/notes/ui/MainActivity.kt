@@ -11,7 +11,21 @@ import com.abduqodirov.notes.R
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
+
+        val fragmentManager = supportFragmentManager
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+
+        val notesListFragment = NotesListFragment()
+        fragmentTransaction.add(R.id.left_pane_container, notesListFragment)
+        fragmentTransaction.commit()
+
+    }
+
+    private fun isTablet(): Boolean {
+        return resources.getBoolean(R.bool.is_tablet)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -34,4 +48,5 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

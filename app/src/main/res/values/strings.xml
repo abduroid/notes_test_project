@@ -6,5 +6,6 @@
 
     <string name="pref_key">prefi</string>
     <string name="key_read_write_storage_is_asked">readAndWrite</string>
+    <string name="save">Save</string>
 
 </resources>
