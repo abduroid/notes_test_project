@@ -23,26 +23,26 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/title"
-        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
+        android:inputType="text"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/details_title_text" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/details_title_toggle_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/details_title_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toEndOf="@id/details_title_text"
-        app:layout_constraintTop_toTopOf="@id/details_title_text"
-        app:srcCompat="@drawable/ic_edit"
-        app:tint="@color/colorPrimary" />
+<!--    <ImageView-->
+<!--        android:id="@+id/details_title_toggle_button"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/details_title_text"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0"-->
+<!--        app:layout_constraintStart_toEndOf="@id/details_title_text"-->
+<!--        app:layout_constraintTop_toTopOf="@id/details_title_text"-->
+<!--        app:srcCompat="@drawable/ic_edit"-->
+<!--        app:tint="@color/colorPrimary" />-->
 
 
     <TextView
@@ -51,11 +51,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="start"
+        android:layout_marginBottom="16dp"
         android:maxLines="3"
         android:textAlignment="viewStart"
         android:textSize="22sp"
-        app:layout_constraintStart_toStartOf="@id/details_title_text"
-        app:layout_constraintTop_toBottomOf="@id/details_title_text"
+        app:layout_constraintStart_toStartOf="@id/details_title_input"
+        app:layout_constraintTop_toBottomOf="@id/details_title_input"
         tools:text="fsafds" />
 
     <EditText
@@ -65,28 +66,27 @@
         android:hint="@string/full_text"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
+        app:layout_constraintTop_toBottomOf="@id/details_title_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/details_full_text" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/details_full_toggle_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/details_full_text"
-        app:layout_constraintStart_toEndOf="@id/details_full_text"
-        app:layout_constraintTop_toTopOf="@id/details_full_text"
-        app:srcCompat="@drawable/ic_edit"
-        app:tint="@color/colorPrimary" />
+<!--    <ImageView-->
+<!--        android:id="@+id/details_full_toggle_button"-->
+<!--        android:layout_width="24dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:layout_marginLeft="16dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/details_full_text"-->
+<!--        app:layout_constraintStart_toEndOf="@id/details_full_text"-->
+<!--        app:layout_constraintTop_toTopOf="@id/details_full_text"-->
+<!--        app:srcCompat="@drawable/ic_edit"-->
+<!--        app:tint="@color/colorPrimary" />-->
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/details_images_recycler"
-        app:layout_constraintStart_toStartOf="@id/details_full_text"
-        app:layout_constraintTop_toBottomOf="@id/details_full_text"
+        app:layout_constraintStart_toStartOf="@id/details_full_input"
+        app:layout_constraintTop_toBottomOf="@id/details_full_input"
         android:layout_width="wrap_content"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

@@ -120,14 +120,14 @@ class NotesListFragment : Fragment() {
         if (isTablet()) {
 
             val fragmentTransaction = fragmentManager.beginTransaction()
-            val noteDetailsFragment = NoteDetailsFragment(pressedNote)
+            val noteDetailsFragment = NoteDetailsFragment.newInstance(pressedNote)
             fragmentTransaction.replace(R.id.right_pane_container, noteDetailsFragment)
             fragmentTransaction.commit()
 
         } else {
 
             val fragmentTransaction = fragmentManager.beginTransaction()
-            val noteDetailsFragment = NoteDetailsFragment(pressedNote)
+            val noteDetailsFragment = NoteDetailsFragment.newInstance(pressedNote)
             fragmentTransaction.add(R.id.left_pane_container, noteDetailsFragment)
             fragmentTransaction.commit()
         }

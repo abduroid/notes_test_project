@@ -32,7 +32,9 @@ import java.io.FileNotFoundException
 import java.util.*
 import kotlin.collections.ArrayList
 
-class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
+private const val ARG_ID = "id"
+
+class NoteDetailsFragment : Fragment() {
 
     private var _binding: FragmentNoteDetailsBinding? = null
 
@@ -45,6 +47,16 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
     private lateinit var imagesAdapter: ImagesAdapter
 
+    private var pressedNoteId: Long? = null
+    private lateinit var pressedNote: Note
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            pressedNoteId = it.getLong(ARG_ID)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,9 +82,8 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
         ).get(NotesViewModel::class.java)
 
 
-        viewModel.clearImagesArray()
-
-        val pressedNoteId = pressedNote.id
+        //TODO remove this and seperate images into two LiveDatas
+//        viewModel.clearImagesArray()
 
         imagesAdapter = ImagesAdapter(
             imageClickListener = ImagesAdapter.ImageClickListener {
@@ -101,74 +112,92 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
         }
 
-        viewModel.getNoteById(pressedNoteId).observe(
-            viewLifecycleOwner,
-            Observer { activeNote: Note ->
+        pressedNoteId?.let {
+            viewModel.getNoteById(it).observe(
+                viewLifecycleOwner,
+                Observer { activeNote: Note ->
 
-                Log.d("tyua", "note yangilandi: $activeNote")
+                    Log.d("tyua", "note yangilandi: $activeNote")
 
-                //TODO shu yerda yangiliklarni textViewlarga ham, editlarga ham set qilamiz.
+                    pressedNote = activeNote
 
-                binding.detailsTitleText.text = activeNote.title
-                binding.detailsTitleInput.setText(activeNote.title)
+                    //TODO shu yerda yangiliklarni textViewlarga ham, editlarga ham set qilamiz.
 
-                binding.detailsFullText.text = activeNote.fullText
-                binding.detailsFullInput.setText(activeNote.fullText)
+                    binding.detailsTitleText.text = activeNote.title
+                    binding.detailsTitleInput.setText(activeNote.title)
 
-                binding.detailsCreatedDate.text = DateFormatter().formatDate(activeNote.createdDate)
+                    binding.detailsFullText.text = activeNote.fullText
+                    binding.detailsFullInput.setText(activeNote.fullText)
+
+                    binding.detailsCreatedDate.text = DateFormatter().formatDate(activeNote.createdDate)
 
 
-                if (activeNote.createdDate != activeNote.lastEditedDate) {
-                    binding.detailsDisclaimerLastEdited.visibility = View.VISIBLE
-                    binding.detailsLastEditedDate.text =
-                        DateFormatter().formatDate(activeNote.lastEditedDate)
-                }
-
-                receivedImagePaths = activeNote.imagePaths
-
-                if (receivedImagePaths.isNotEmpty()) {
-
-                    for (imagePath in receivedImagePaths) {
-                        viewModel.addImage(imagePath)
+                    if (activeNote.createdDate != activeNote.lastEditedDate) {
+                        binding.detailsDisclaimerLastEdited.visibility = View.VISIBLE
+                        binding.detailsLastEditedDate.text =
+                            DateFormatter().formatDate(activeNote.lastEditedDate)
                     }
 
-                }
+                    receivedImagePaths = activeNote.imagePaths
+
+                    if (receivedImagePaths.isNotEmpty()) {
+
+                        for (imagePath in receivedImagePaths) {
+                            viewModel.addImage(imagePath)
+                        }
+
+                    }
 
 
 
 
-                readModeSwitcher(
-                    binding.detailsTitleText,
-                    binding.detailsTitleInput,
-                    binding.detailsTitleToggleButton
-                )
+                    readModeSwitcher(
+                        binding.detailsTitleText,
+                        binding.detailsTitleInput
+                    )
 
-                readModeSwitcher(
-                    binding.detailsFullText,
-                    binding.detailsFullInput,
-                    binding.detailsFullToggleButton
-                )
-            })
+                    readModeSwitcher(
+                        binding.detailsFullText,
+                        binding.detailsFullInput
+                    )
+                })
+        }
 
-        binding.detailsTitleToggleButton.setOnClickListener {
+        binding.detailsTitleText.setOnClickListener {
 
             writeModeSwitcher(
                 binding.detailsTitleText,
-                binding.detailsTitleInput,
-                binding.detailsTitleToggleButton
+                binding.detailsTitleInput
             )
 
         }
 
-        binding.detailsFullToggleButton.setOnClickListener {
+        binding.detailsFullText.setOnClickListener {
 
             writeModeSwitcher(
                 binding.detailsFullText,
-                binding.detailsFullInput,
-                binding.detailsFullToggleButton
+                binding.detailsFullInput
             )
 
         }
+
+//        binding.detailsTitleToggleButton.setOnClickListener {
+//
+//            writeModeSwitcher(
+//                binding.detailsTitleText,
+//                binding.detailsTitleInput
+//            )
+//
+//        }
+//
+//        binding.detailsFullToggleButton.setOnClickListener {
+//
+//            writeModeSwitcher(
+//                binding.detailsFullText,
+//                binding.detailsFullInput
+//            )
+//
+//        }
 
         binding.detailsSubmitButton.setOnClickListener {
 
@@ -192,17 +221,22 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 //            }
 
 
-            val updatingNote = Note(
-                id = pressedNoteId,
-                title = newTitle,
-                fullText = newFullText,
-                lastEditedDate = newLastEditedDate,
-                imagePaths = addedImagesPaths,
-                createdDate = pressedNote.createdDate
-            )
+            if (pressedNoteId != null) {
+                val updatingNote = Note(
+                    id = pressedNoteId!!,
+                    title = newTitle,
+                    fullText = newFullText,
+                    lastEditedDate = newLastEditedDate,
+                    imagePaths = addedImagesPaths,
+                    createdDate = pressedNote.createdDate
+                )
+
+                viewModel.updateNote(updatingNote = updatingNote)
+
+            }
 
 
-            viewModel.updateNote(updatingNote = updatingNote)
+
 
         }
 
@@ -245,21 +279,21 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
 
 
-    private fun readModeSwitcher(textView: TextView, editText: EditText, toggleButton: ImageView) {
+    private fun readModeSwitcher(textView: TextView, editText: EditText) {
 
         textView.visibility = View.VISIBLE
         editText.visibility = View.INVISIBLE
 
-        toggleButton.visibility = View.VISIBLE
+//        toggleButton.visibility = View.VISIBLE
 
     }
 
-    private fun writeModeSwitcher(textView: TextView, editText: EditText, toggleButton: ImageView) {
+    private fun writeModeSwitcher(textView: TextView, editText: EditText) {
 
         textView.visibility = View.INVISIBLE
         editText.visibility = View.VISIBLE
 
-        toggleButton.visibility = View.INVISIBLE
+//        toggleButton.visibility = View.INVISIBLE
 
     }
 
@@ -320,6 +354,17 @@ class NoteDetailsFragment(private val pressedNote: Note) : Fragment() {
 
     private fun isTablet(): Boolean {
         return requireActivity().resources.getBoolean(R.bool.is_tablet)
+    }
+
+    companion object {
+
+        fun newInstance(pressedNote: Note) =
+            NoteDetailsFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(ARG_ID, pressedNote.id)
+                }
+            }
+
     }
 
 }

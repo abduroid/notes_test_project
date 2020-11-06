@@ -12,5 +12,7 @@
     <string name="title">Title</string>
     <string name="full_text">Full text</string>
     <string name="empty_notes_disclaimer">You haven\'t created any notes yet. Press + button to create one</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
