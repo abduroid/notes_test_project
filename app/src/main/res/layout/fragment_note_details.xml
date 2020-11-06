@@ -87,21 +87,23 @@
         android:id="@+id/details_images_recycler"
         app:layout_constraintStart_toStartOf="@id/details_full_text"
         app:layout_constraintTop_toBottomOf="@id/details_full_text"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_height="100dp" />
 
-
-<!--    <ImageView-->
-<!--        android:id="@+id/details_image"-->
-<!--        android:layout_width="100dp"-->
-<!--        android:layout_height="100dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        app:layout_constraintStart_toStartOf="@id/details_full_text"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/details_full_text"-->
-<!--        app:srcCompat="@drawable/ic_add_photo"-->
-<!--        app:tint="@color/colorPrimary" />-->
+    <ImageView
+        android:id="@+id/details_add_image_button"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/details_images_recycler"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@id/details_images_recycler"
+        app:layout_constraintTop_toTopOf="@id/details_images_recycler"
+        app:srcCompat="@drawable/ic_add_photo"
+        app:tint="@color/colorPrimary" />
 
 
 

@@ -43,7 +43,6 @@ class NewNoteFragment : Fragment() {
 
     private lateinit var sharedPref: SharedPreferences
 
-//    private var addedImagePath = ""
     private var addedImagesPaths = ArrayList<String>()
 
     private lateinit var imageAdapter: ImagesAdapter
@@ -62,6 +61,7 @@ class NewNoteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         sharedPref = requireActivity().getSharedPreferences(
             getString(R.string.pref_key),
             Context.MODE_PRIVATE
@@ -75,6 +75,8 @@ class NewNoteFragment : Fragment() {
             requireActivity(), viewModelFactory
         ).get(NotesViewModel::class.java)
 
+
+        viewModel.clearImagesArray()
 
         imageAdapter = ImagesAdapter(
             imageClickListener = ImagesAdapter.ImageClickListener {
@@ -102,7 +104,6 @@ class NewNoteFragment : Fragment() {
             val newTitle = binding.newNoteTitleInput.text.toString()
             val newFullText = binding.newNoteFullTextInput.text.toString()
             val newCreatedDate = Calendar.getInstance().time
-
 
             val newNote = Note(
                 title = newTitle,
@@ -152,6 +153,8 @@ class NewNoteFragment : Fragment() {
 
             imageAdapter.submitList(it)
             imageAdapter.notifyDataSetChanged()
+
+            addedImagesPaths = it
         })
 
     }

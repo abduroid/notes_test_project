@@ -20,7 +20,8 @@ class Converters {
     @TypeConverter
     fun fromString(value: String): ArrayList<String> {
 
-        val paths = value.split("\\s*,\\s*")
+        Log.d("jkms", "Converterda raw: $value")
+        val paths = value.split(",").toTypedArray()
 
         val workerArrayList = ArrayList<String>()
 
@@ -38,7 +39,13 @@ class Converters {
         var value = ""
 
         for (image in images) {
-            value += "${image},"
+
+            value += image
+
+            if (images.indexOf(image) != images.size - 1) {
+
+                value += ","
+            }
         }
 
         return value

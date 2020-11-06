@@ -23,10 +23,13 @@ class NotesViewModel(
 
         var oldImages = images.value
         if (oldImages == null) {
-            oldImages = ArrayList<String>()
+            oldImages = ArrayList()
         }
 
-        oldImages.add(imagePath)
+        val isAlreadyAdded = oldImages.any { path -> path == imagePath }
+        if (!isAlreadyAdded && imagePath.isNotEmpty()) {
+            oldImages.add(imagePath)
+        }
 
         images.value = oldImages
 
