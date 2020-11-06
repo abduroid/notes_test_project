@@ -3,4 +3,8 @@
     <string name="link_button_delete_note">Delete note</string>
     <string name="settings">Settings</string>
     <string name="delete_all">Delete all</string>
+
+    <string name="pref_key">prefi</string>
+    <string name="key_read_write_storage_is_asked">readAndWrite</string>
+
 </resources>

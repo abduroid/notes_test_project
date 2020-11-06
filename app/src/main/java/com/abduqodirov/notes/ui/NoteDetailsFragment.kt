@@ -1,5 +1,6 @@
 package com.abduqodirov.notes.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.abduqodirov.notes.model.Note
 import com.abduqodirov.notes.util.DateFormatter
 import com.abduqodirov.notes.viewmodel.NotesViewModel
 import com.abduqodirov.notes.viewmodel.ViewModelFactory
+import java.io.File
 import java.util.*
 
 class NoteDetailsFragment : Fragment() {
@@ -83,7 +85,12 @@ class NoteDetailsFragment : Fragment() {
                 }
 
                 //TODO images fix
-                binding.detailsImagesText.text = activeNote.imagePaths
+
+                val imageFile = File(requireContext().filesDir, activeNote.imagePaths)
+
+                val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+                binding.detailsImage.setImageBitmap(bitmap)
 
 
                 readModeSwitcher(
