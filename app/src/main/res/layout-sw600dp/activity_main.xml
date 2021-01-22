@@ -9,16 +9,16 @@
     <FrameLayout
         android:id="@+id/left_pane_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintWidth_percent=".3"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/right_pane_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_percent=".7"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+<!--    <FrameLayout-->
+<!--        android:id="@+id/right_pane_container"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintWidth_percent=".7"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent" />-->
 
 <!--    <fragment-->
 <!--        android:id="@+id/main_nav_host_fragment"-->
